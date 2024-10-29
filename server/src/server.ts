@@ -2,17 +2,16 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Configure CORS to allow requests from the frontend
-app.use(cors({
-  origin: 'http://localhost:3000',  // Allow requests from your React app
-  credentials: true                 // Allow cookies and other credentials
-}));
+app.use(cors());
+app.use(express.json());
+app.use('/api/auth', authRoutes);
 
 // Basic route for testing
 app.get('/', (req: Request, res: Response) => {
