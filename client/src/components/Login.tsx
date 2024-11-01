@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { login } from '../services/authService';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const response = await login(email, password);
-      console.log(response.data.token); // Store token or handle it
-      alert('Login successful');
+      console.log(response.data.token);
+      // Store token or handle it
+      localStorage.setItem('token', response.data.token);
+      navigate('/Home');
     } catch (error) {
-      console.error(error);
+      console.error('Login failed:', error);
       alert('Login failed');
     }
   };
